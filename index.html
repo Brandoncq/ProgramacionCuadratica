@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <link href="style.css" rel="stylesheet" crossorigin="anonymous">
+    <title>Graficador de Matriz</title>
+</head>
+<body>
+    <div class="into">
+        <div class="marco">
+            <h1>Calculadora Programación Cuádratica</h1>
+            <h3>Instrucciones</h3>
+            <p>
+                •Ingreasr Numeros Coherentes y que tengan solucion.
+            </p>
+            <p>
+                •Ingresar un numero entero posivito en Numero de Restrincciones.
+            </p>
+        </div>
+    </div>
+    <div class="z-function">
+        <form>
+            <div class="fase-function">
+                <h2>f (x<sub>1</sub>,x<sub>2</sub>) =&nbsp;</h2>
+                <h2>
+                    <input type="number" id="a" required>&nbsp;&nbsp;x<sub>1</sub>&nbsp;+&nbsp;&nbsp;
+                    <input type="number" id="b" required>&nbsp;&nbsp;x<sub>2</sub>&nbsp;+&nbsp;&nbsp;
+                    <input type="number" id="c" required>&nbsp;&nbsp;x<sub>1</sub>x<sub>2</sub>&nbsp;+&nbsp;&nbsp;
+                    <input type="number" id="d" required>&nbsp;&nbsp;x<sub>1</sub><sup>2</sup>&nbsp;+&nbsp;&nbsp;
+                    <input type="number" id="e" required>&nbsp;&nbsp;x<sub>2</sub><sup>2</sup>
+                </h2>
+            </div>
+            <div class="restricciones">
+                <div class="numres">
+                    <label for="numero-restricciones">Número de Restricciones:</label>
+                    <input type="number" min="1" id="numero-restricciones" required >
+                    <button onclick="generarCampos()">Generar Campos</button>
+                </div>
+                
+            
+                <div id="campos-generados"></div>
+            </div>
+            <div class="campo-boton">
+                <button onclick="calcularZ()" class="boton">Calcular</button>
+            </div>
+        </form>
+        
+    </div>
+    <div class="container">
+        <div class="tables">
+            <div class="imagen-metodo">
+                <p>Imagen</p>
+                <img src="https://lh3.googleusercontent.com/proxy/CoqvzGYyK8YzwJEqqLzm9ESR29WVHcX-Nmk81ol4MZFEvVyRe7fR82Q4IsOn6U9acu-4gEB1i9lEACMH7N-CcVcobIqiCJaeCKHMyIWal5f69elU0enug7EcOA-M8Zw" alt="">
+            </div>
+            
+        </div>
+    </div>
+    <div class="results">
+
+    </div>
+    
+    <script src="index.js"></script>
+</body>
+
+</html>
