@@ -21,7 +21,12 @@
     <div class="z-function">
         <form>
             <div class="fase-function">
-                <h2>f (x<sub>1</sub>,x<sub>2</sub>) =&nbsp;</h2>
+                <h2>
+                    <select class="tipo">
+                        <option value="Maximizar">Maximizar</option>
+                        <option value="Minimizar">Minimizar</option>
+                    </select>
+                    &nbsp;&nbsp;f (x<sub>1</sub>,x<sub>2</sub>) =&nbsp;</h2>
                 <h2>
                     <input type="number" id="a" required>&nbsp;&nbsp;x<sub>1</sub>&nbsp;+&nbsp;&nbsp;
                     <input type="number" id="b" required>&nbsp;&nbsp;x<sub>2</sub>&nbsp;+&nbsp;&nbsp;
@@ -36,7 +41,10 @@
                     <input type="number" min="1" id="numero-restricciones" required >
                     <button onclick="generarCampos()">Generar Campos</button>
                 </div>
+                <br>
                 <div id="campos-generados"></div>
+                <br>
+                <label>&nbsp;&nbsp;x<sub>1</sub>&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;x<sub>2</sub>&nbsp;&nbsp;&nbsp;≥&nbsp;&nbsp;0</label>
             </div>
             <div class="campo-boton">
                 <button onclick="calcularZ()" class="boton">Calcular</button>
@@ -55,5 +63,4 @@
     </div>
     <script src="index.js"></script>
 </body>
-
 </html>

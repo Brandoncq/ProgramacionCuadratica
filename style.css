@@ -16,6 +16,11 @@ body{
   padding: 15px;
   margin: 15px;
 }
+.fase-function select{
+  font-size: large;
+  width: 130px;
+  text-align: center;
+}
 .tables{
   display: flex;
   padding: 20px;
@@ -81,8 +86,8 @@ body{
   justify-content: center;
   align-items: center;
 }
-select{
-  font-size: xx-large;
+#campos-generados select{
+  font-size: x-large;
   width: 70px;
   text-align: center;
 }
@@ -98,14 +103,14 @@ select{
   border-radius: 5px;
 }
 .z-function input{
-  font-size: xx-large;
+  font-size: x-large;
   text-align: center;
   outline: none;
   border-radius: 5px;
   border: 2px solid rgba(85, 84, 84,0.5);
 }
 input{
-  font-size: xx-large;
+  font-size: x-large;
   width: 70px;
 }
 label{
@@ -113,7 +118,7 @@ label{
   color: #414141;
 }
 .fase-function input{
-  font-size: xx-large;
+  font-size: x-large;
 
   width: 70px;
   text-align: center;
@@ -167,5 +172,5 @@ table,tr,th,td{
   border: 1px solid white;
   border-radius: 10px;
   color: white;
-  background-color: #727272;
+  background-color: rgba(138, 138, 138, 0.9);
 }

@@ -1,10 +1,10 @@
-var valoresRestricciones = [];
+var valoresRestricciones_ = [];
 const epsilon = 1e-10; 
     function generarCampos() {
         event.preventDefault()
         var numeroRestricciones = document.getElementById("numero-restricciones").value;
         var camposGeneradosDiv = document.getElementById("campos-generados");
-        valoresRestricciones = []
+        valoresRestricciones_ = []
         // Limpiar campos previos
         camposGeneradosDiv.innerHTML = "";
 
@@ -56,7 +56,7 @@ const epsilon = 1e-10;
             camposGeneradosDiv.appendChild(inputNumero);
             camposGeneradosDiv.appendChild(document.createElement("br"));
 
-            valoresRestricciones.push({
+            valoresRestricciones_.push({
                 x1: inputX1,
                 x2: inputX2,
                 restrinccion: select,
@@ -64,7 +64,7 @@ const epsilon = 1e-10;
             });
         }
     }
-function verificarConsistencia(){
+function verificarConsistencia(valoresRestricciones){
   let comparacion = {"x1":[0,0],"x2":[0,0]}
   for(let i=0;i<valoresRestricciones.length;i++){
 
@@ -95,7 +95,7 @@ function verificarConsistencia(){
     }
   }
   let flag= true
-  if(comparacion.x1[0]>comparacion.x1[1] || comparacion.x1[0]<0 || comparacion.x1[1]<0){
+  if(comparacion.x1[0]>comparacion.x1[1] || comparacion.x1[0]<0 || comparacion.x1[1]<0 || valoresRestricciones.length < 0){
     flag= false
   }
   if(comparacion.x2[0]>comparacion.x2[1] || comparacion.x2[0]<0 || comparacion.x2[1]<0){
@@ -103,6 +103,53 @@ function verificarConsistencia(){
   }
 
   return flag
+}
+function Maximizar(a, vbasica, standard) {
+  let container = document.querySelector('.container');
+  let div = document.createElement('div')
+  div.classList.add('title')
+  var h2 = document.createElement('h1')
+  h2.textContent="Procedimiento"
+  div.appendChild(h2);
+  container.appendChild(div)
+
+  let selecccionado = []
+  graficarMatriz(a,vbasica,selecccionado,standard)
+  console.log(a[0])
+  while (a[0].slice(0, -1).some(coeficiente => coeficiente > 0)){
+    
+    let indiceMenor = a[0].slice(0, -1).indexOf(Math.max(...a[0].slice(0, -1)));
+    const indice_fila = pivote(a, indiceMenor);
+    selecccionado = [indice_fila,indiceMenor]
+    graficarMatriz(a,vbasica,selecccionado,standard)
+    if (indice_fila === -1) {
+      return { a, vbasica };
+    }
+    if (indiceMenor >= 0) {
+      vbasica[indice_fila] = standard[indiceMenor];
+    }
+    const valor =a[indice_fila][indiceMenor]
+    if (indice_fila >= 0 && indice_fila < a.length) {
+      for (let i = 0; i < a[0].length; i++) {
+        
+        a[indice_fila][i] = a[indice_fila][i] / valor;
+      }
+    }
+    let factores = []
+    for (let i = 0; i < a.length; i++) {
+      factores.push(a[i][indiceMenor])
+    }
+    for (let i = 0; i < a.length; i++) {
+      if (i !== indice_fila && i >= 0 && i < a.length && factores[i]!=0) {
+        for (let k = 0; k < a[0].length; k++) {
+          a[i][k] -= factores[i] * a[indice_fila][k];
+        }
+      }
+    }
+    selecccionado = []
+    graficarMatriz(a,vbasica,selecccionado,standard)
+  }
+  resultado(a, vbasica,standard)
 }
 function simplex(a, vbasica, standard) {
   let container = document.querySelector('.container');
@@ -115,7 +162,7 @@ function simplex(a, vbasica, standard) {
 
   let selecccionado = []
   graficarMatriz(a,vbasica,selecccionado,standard)
-  while (a[0].some(coeficiente => coeficiente < -epsilon)) {
+  while (a[0].slice(0, -1).some(coeficiente => coeficiente < -epsilon)){
     
     let indiceMenor = a[0].slice(0, -1).indexOf(Math.min(...a[0].slice(0, -1)));
     const indice_fila = pivote(a, indiceMenor);
@@ -247,6 +294,7 @@ function graficarMatriz(matriz_resuelto, resultados,select,standard) {
 }
 function resultado(matriz_resuelto, resultados,standard){
   let container = document.querySelector('.results');
+  container.innerHTML=""
   let div = document.createElement('div')
   div.classList.add('centrar')
   var h2 = document.createElement('h1')
@@ -254,7 +302,7 @@ function resultado(matriz_resuelto, resultados,standard){
   div.appendChild(h2);
   for (var i = 1; i < matriz_resuelto.length; i++) { 
     var h3 = document.createElement('h2')
-    h3.textContent+=resultados[i]+" = "
+    h3.textContent+=resultados[i]+" ➞ "
     for (var j = 0; j < resultados.length-1; j++) { 
       h3.textContent+=matriz_resuelto[i][j]
       if(resultados.length-2>j){
@@ -278,26 +326,63 @@ function resultado(matriz_resuelto, resultados,standard){
     var coeficienteE = parseFloat(document.getElementById('e').value);
     let testing =[]
     let filas = []
-    filas.push(coeficienteD * 2 + coeficienteC)
-    filas.push(coeficienteC + 2 * coeficienteE)
-    for(let i=0;i<valoresRestricciones.length;i++){
-      filas.push(-parseFloat(valoresRestricciones[i].x1.value)-parseFloat(valoresRestricciones[i].x2.value))
+    let valoresRestricciones = [];
+    for (let restringido of valoresRestricciones_) {
+      valoresRestricciones.push({
+        x1: parseFloat(restringido.x1.value),
+        x2: parseFloat(restringido.x2.value),
+        numero: parseFloat(restringido.numero.value)
+      });
     }
-    filas.push(1)
-    filas.push(1)
+
+    
+    console.log(valoresRestricciones)
+
+    let tipo = document.querySelector('.tipo')
+    console.log(coeficienteD,coeficienteC,coeficienteE)
+    if(tipo.value=='Maximizar'){
+      filas.push(-coeficienteD * 2 - coeficienteC)
+      filas.push(-coeficienteC - 2 * coeficienteE)
+    }else{
+      filas.push(coeficienteD * 2 + coeficienteC)
+      filas.push(coeficienteC + 2 * coeficienteE)
+    }
+
+    
+    for(let i=0;i<valoresRestricciones.length;i++){
+      if(tipo.value=='Maximizar'){
+        filas.push(parseFloat(valoresRestricciones[i].x1)+parseFloat(valoresRestricciones[i].x2))
+      }else{
+        filas.push(-parseFloat(valoresRestricciones[i].x1)-parseFloat(valoresRestricciones[i].x2))
+      }
+    }
+    if(tipo.value=='Maximizar'){
+      filas.push(-1)
+      filas.push(-1)
+    }else{
+      filas.push(1)
+      filas.push(1)
+    }
+    
     for(let i=0;i<valoresRestricciones.length;i++){
       filas.push(0)
     }
     filas.push(0)
     filas.push(0)
-    filas.push(-coeficienteA-coeficienteB)
+    if(tipo.value=='Maximizar'){
+      filas.push(coeficienteA+coeficienteB)
+    }else{
+      filas.push(-coeficienteA-coeficienteB)
+    }
+    
+
     testing.push(filas)
 
     filas = []
     filas.push(-coeficienteD * 2)
     filas.push(-coeficienteC)
     for(let i=0;i<valoresRestricciones.length;i++){
-      filas.push(parseFloat(valoresRestricciones[i].x1.value))
+      filas.push(parseFloat(valoresRestricciones[i].x1))
     }
     filas.push(-1)
     filas.push(0)
@@ -313,7 +398,7 @@ function resultado(matriz_resuelto, resultados,standard){
     filas.push(-coeficienteC)
     filas.push(-2 * coeficienteE)
     for(let i=0;i<valoresRestricciones.length;i++){
-      filas.push(parseFloat(valoresRestricciones[i].x2.value))
+      filas.push(parseFloat(valoresRestricciones[i].x2))
     }
     filas.push(0)
     filas.push(-1)
@@ -327,8 +412,8 @@ function resultado(matriz_resuelto, resultados,standard){
 
     for(let i=0;i<valoresRestricciones.length;i++){
       filas = []
-      filas.push(parseFloat(valoresRestricciones[i].x1.value))
-      filas.push(parseFloat(valoresRestricciones[i].x2.value))
+      filas.push(parseFloat(valoresRestricciones[i].x1))
+      filas.push(parseFloat(valoresRestricciones[i].x2))
       for(let k=0;k<2+valoresRestricciones.length;k++){
         filas.push(0)
       }
@@ -339,7 +424,7 @@ function resultado(matriz_resuelto, resultados,standard){
       }
       filas.push(0)
       filas.push(0)
-      filas.push(parseFloat(valoresRestricciones[i].numero.value))
+      filas.push(parseFloat(valoresRestricciones[i].numero))
       testing.push(filas)
     }
     let nuevaC = ["x\u2081", "x\u2082"]
@@ -359,7 +444,12 @@ function resultado(matriz_resuelto, resultados,standard){
     }
     let tables = document.querySelector('.container')
     tables.innerHTML = ""
-    if(verificarConsistencia()){
-      simplex(testing,entrantes,nuevaC)
+    if(verificarConsistencia(valoresRestricciones_)){
+      if(tipo.value=='Maximizar'){
+        Maximizar(testing,entrantes,nuevaC)
+      }else{
+        simplex(testing,entrantes,nuevaC)
+      }
+      
     }
   }
