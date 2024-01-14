@@ -1,11 +1,10 @@
 var valoresRestricciones_ = [];
 const epsilon = 1e-10; 
-    function generarCampos() {
+function generarCampos() {
         event.preventDefault()
         var numeroRestricciones = document.getElementById("numero-restricciones").value;
         var camposGeneradosDiv = document.getElementById("campos-generados");
         valoresRestricciones_ = []
-        // Limpiar campos previos
         camposGeneradosDiv.innerHTML = "";
 
         for (var i = 1; i <= numeroRestricciones; i++) {
@@ -63,7 +62,7 @@ const epsilon = 1e-10;
                 numero: inputNumero
             });
         }
-    }
+}
 function verificarConsistencia(valoresRestricciones){
   let comparacion = {"x1":[0,0],"x2":[0,0]}
   for(let i=0;i<valoresRestricciones.length;i++){
@@ -115,7 +114,6 @@ function Maximizar(a, vbasica, standard) {
 
   let selecccionado = []
   graficarMatriz(a,vbasica,selecccionado,standard)
-  console.log(a[0])
   while (a[0].slice(0, -1).some(coeficiente => coeficiente > 0)){
     
     let indiceMenor = a[0].slice(0, -1).indexOf(Math.max(...a[0].slice(0, -1)));
@@ -123,7 +121,7 @@ function Maximizar(a, vbasica, standard) {
     selecccionado = [indice_fila,indiceMenor]
     graficarMatriz(a,vbasica,selecccionado,standard)
     if (indice_fila === -1) {
-      return { a, vbasica };
+      return resultado(a, vbasica,standard)
     }
     if (indiceMenor >= 0) {
       vbasica[indice_fila] = standard[indiceMenor];
@@ -169,7 +167,7 @@ function simplex(a, vbasica, standard) {
     selecccionado = [indice_fila,indiceMenor]
     graficarMatriz(a,vbasica,selecccionado,standard)
     if (indice_fila === -1) {
-      return { a, vbasica };
+      return resultado(a, vbasica,standard)
     }
     if (indiceMenor >= 0) {
       vbasica[indice_fila] = standard[indiceMenor];
@@ -202,25 +200,27 @@ function simplex(a, vbasica, standard) {
 function pivote(a, indiceMenor) {
   const array = [];
   for (let j = 0; j < a.length; j++) {
-    if (j < a.length && a[j][indiceMenor] !== 0 && j !=0) {
+    if (j !== 0 && a[j][indiceMenor] !== 0) {
       let analizar = a[j][a[0].length - 1] / a[j][indiceMenor];
       if (analizar > 0) {
         array.push(analizar);
-      }else{
-        array.push(10000);
       }
-    }else{
-      array.push(10000)
     }
   }
   if (array.length === 0) {
     return -1;
   }
   let fila = array.indexOf(Math.min(...array));
-  return fila;
+  for (let i = 1; i < a.length; i++) {
+    if (a[i][indiceMenor] != 0) {
+      let analizar = a[i][a[0].length - 1] / a[i][indiceMenor];
+      if (analizar > 0 && analizar === array[fila]) {
+        return i;
+      }
+    }
+  }
+  return -1;
 }
-
-
 function graficarMatriz(matriz_resuelto, resultados,select,standard) {
   if (matriz_resuelto) {
     var filas = matriz_resuelto.length;
@@ -303,21 +303,12 @@ function resultado(matriz_resuelto, resultados,standard){
   for (var i = 1; i < matriz_resuelto.length; i++) { 
     var h3 = document.createElement('h2')
     h3.textContent+=resultados[i]+" ➞ "
-    for (var j = 0; j < resultados.length-1; j++) { 
-      h3.textContent+=matriz_resuelto[i][j]
-      if(resultados.length-2>j){
-        h3.textContent+=standard[j]+" + "
-      }else{
-        h3.textContent+=standard[j]
-      }
-    }
-    h3.textContent+=" = "+matriz_resuelto[i][matriz_resuelto[0].length-1]
+    h3.textContent+=" = "+matriz_resuelto[i][matriz_resuelto[0].length-1].toFixed(4)
     div.appendChild(h3);
   }
   container.appendChild(div)
 }
-
-  function calcularZ() {
+function calcularZ() {
     event.preventDefault()
     var coeficienteA = parseFloat(document.getElementById('a').value);
     var coeficienteB = parseFloat(document.getElementById('b').value);
@@ -334,12 +325,7 @@ function resultado(matriz_resuelto, resultados,standard){
         numero: parseFloat(restringido.numero.value)
       });
     }
-
-    
-    console.log(valoresRestricciones)
-
     let tipo = document.querySelector('.tipo')
-    console.log(coeficienteD,coeficienteC,coeficienteE)
     if(tipo.value=='Maximizar'){
       filas.push(-coeficienteD * 2 - coeficienteC)
       filas.push(-coeficienteC - 2 * coeficienteE)
@@ -450,6 +436,5 @@ function resultado(matriz_resuelto, resultados,standard){
       }else{
         simplex(testing,entrantes,nuevaC)
       }
-      
     }
-  }
+}
