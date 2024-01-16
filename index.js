@@ -104,14 +104,107 @@ function verificarConsistencia(valoresRestricciones){
   return flag
 }
 function Maximizar(a, vbasica, standard) {
-  let container = document.querySelector('.container');
+  let container = document.querySelector('.container')
+
+  let divtitle = document.createElement('div')
+  divtitle.classList.add('title')
+  var h1title = document.createElement('h1')
+  h1title.textContent="Planteamiento"
+  divtitle.appendChild(h1title);
+  container.appendChild(divtitle)
+
+  let divA = document.createElement('div')
+
+  var tablaQ = document.createElement('table')
+  var h2Q = document.createElement('h2')
+  h2Q.textContent = "Q = "
+  divA.classList.add('matrices')
+  for(let i=0;i<2;i++){
+    var fila = document.createElement('tr')
+    for(let j=0;j<2;j++){
+      var celda = document.createElement('td')
+      celda.textContent = a[i+1][j];
+      fila.appendChild(celda)
+    }
+    tablaQ.appendChild(fila)
+  }
+  var tablac = document.createElement('table')
+  var h2c = document.createElement('h2')
+  h2c.textContent = "c = "
+  var filac = document.createElement('tr')
+  for(let i=0;i<2;i++){
+    var celdac = document.createElement('td')
+    celdac.textContent = a[i+1][a[0].length-1];
+    filac.appendChild(celdac)
+  }
+  tablac.appendChild(filac)
+
+  var tablax = document.createElement('table')
+  var h2x = document.createElement('h2')
+  h2x.textContent = "x = "
+  for(let k=0;k<2;k++){
+    var filax = document.createElement('tr')
+    var celdax = document.createElement('td')
+    celdax.textContent = "x"+(k+1)
+    filax.appendChild(celdax)
+    tablax.appendChild(filax)
+  }
+  
+  divA.appendChild(h2c)
+  divA.appendChild(tablac)
+
+  divA.appendChild(h2x)
+  divA.appendChild(tablax)
+  
+  divA.appendChild(h2Q)
+  divA.appendChild(tablaQ)
+  container.appendChild(divA)
+
+  let divB = document.createElement('div')
+  var tablaA = document.createElement('table')
+  var h2A = document.createElement('h2')
+  divB.classList.add('matrices')
+  h2A.textContent = "A = "
+  divA.classList.add('matrices')
+  for(let i=3;i<a.length;i++){
+    var filaA = document.createElement('tr')
+    for(let j=0;j<2;j++){
+      var celdaA = document.createElement('td')
+      celdaA.textContent = a[i][j]
+      filaA.appendChild(celdaA)
+    }
+    tablaA.appendChild(filaA)
+  }
+  divB.appendChild(h2A)
+  divB.appendChild(tablaA)
+
+  var tablab = document.createElement('table')
+  var h2b = document.createElement('h2')
+  h2b.textContent = "b = "
+  divA.classList.add('matrices')
+  for(let i=3;i<a.length;i++){
+    var filab = document.createElement('tr')
+    var celdab = document.createElement('td')
+    celdab.textContent = a[i][a[0].length-1]
+    filab.appendChild(celdab)
+  }
+  tablab.appendChild(filab)
+
+  divB.appendChild(h2b)
+  divB.appendChild(tablab)
+
+  var br = document.createElement('br')
+  container.appendChild(divB)
+  
+  container.appendChild(br)
+  container.appendChild(br)
   let div = document.createElement('div')
   div.classList.add('title')
   var h2 = document.createElement('h1')
   h2.textContent="Procedimiento"
   div.appendChild(h2);
   container.appendChild(div)
-
+  let num = 1
   let selecccionado = []
   graficarMatriz(a,vbasica,selecccionado,standard)
   while (a[0].slice(0, -1).some(coeficiente => coeficiente > 0)){
@@ -119,6 +212,14 @@ function Maximizar(a, vbasica, standard) {
     let indiceMenor = a[0].slice(0, -1).indexOf(Math.max(...a[0].slice(0, -1)));
     const indice_fila = pivote(a, indiceMenor);
     selecccionado = [indice_fila,indiceMenor]
+    let divaux = document.createElement('div')
+    divaux.classList.add('title')
+    var h2 = document.createElement('h2')
+    h2.textContent="Iteración "+num
+    num++
+    divaux.appendChild(h2);
+    container.appendChild(divaux)
+    
     graficarMatriz(a,vbasica,selecccionado,standard)
     if (indice_fila === -1) {
       return resultado(a, vbasica,standard)
@@ -150,14 +251,107 @@ function Maximizar(a, vbasica, standard) {
   resultado(a, vbasica,standard)
 }
 function simplex(a, vbasica, standard) {
-  let container = document.querySelector('.container');
+  let container = document.querySelector('.container')
+
+  let divtitle = document.createElement('div')
+  divtitle.classList.add('title')
+  var h1title = document.createElement('h1')
+  h1title.textContent="Planteamiento"
+  divtitle.appendChild(h1title);
+  container.appendChild(divtitle)
+
+  let divA = document.createElement('div')
+
+  var tablaQ = document.createElement('table')
+  var h2Q = document.createElement('h2')
+  h2Q.textContent = "Q = "
+  divA.classList.add('matrices')
+  for(let i=0;i<2;i++){
+    var fila = document.createElement('tr')
+    for(let j=0;j<2;j++){
+      var celda = document.createElement('td')
+      celda.textContent = a[i+1][j];
+      fila.appendChild(celda)
+    }
+    tablaQ.appendChild(fila)
+  }
+  var tablac = document.createElement('table')
+  var h2c = document.createElement('h2')
+  h2c.textContent = "c = "
+  var filac = document.createElement('tr')
+  for(let i=0;i<2;i++){
+    var celdac = document.createElement('td')
+    celdac.textContent = a[i+1][a[0].length-1];
+    filac.appendChild(celdac)
+  }
+  tablac.appendChild(filac)
+
+  var tablax = document.createElement('table')
+  var h2x = document.createElement('h2')
+  h2x.textContent = "x = "
+  for(let k=0;k<2;k++){
+    var filax = document.createElement('tr')
+    var celdax = document.createElement('td')
+    celdax.textContent = "x"+(k+1)
+    filax.appendChild(celdax)
+    tablax.appendChild(filax)
+  }
+  
+  divA.appendChild(h2c)
+  divA.appendChild(tablac)
+
+  divA.appendChild(h2x)
+  divA.appendChild(tablax)
+  
+  divA.appendChild(h2Q)
+  divA.appendChild(tablaQ)
+  container.appendChild(divA)
+
+  let divB = document.createElement('div')
+  var tablaA = document.createElement('table')
+  var h2A = document.createElement('h2')
+  divB.classList.add('matrices')
+  h2A.textContent = "A = "
+  divA.classList.add('matrices')
+  for(let i=3;i<a.length;i++){
+    var filaA = document.createElement('tr')
+    for(let j=0;j<2;j++){
+      var celdaA = document.createElement('td')
+      celdaA.textContent = a[i][j];
+      filaA.appendChild(celdaA)
+    }
+    tablaA.appendChild(filaA)
+  }
+  divB.appendChild(h2A)
+  divB.appendChild(tablaA)
+
+  var tablab = document.createElement('table')
+  var h2b = document.createElement('h2')
+  h2b.textContent = "b = "
+  divA.classList.add('matrices')
+  for(let i=3;i<a.length;i++){
+    var filab = document.createElement('tr')
+    var celdab = document.createElement('td')
+    celdab.textContent = a[i][a[0].length-1]
+    filab.appendChild(celdab)
+  }
+  tablab.appendChild(filab)
+
+  divB.appendChild(h2b)
+  divB.appendChild(tablab)
+  var br = document.createElement('br')
+
+  container.appendChild(divB)
+  container.appendChild(br)
+  container.appendChild(br)
+
   let div = document.createElement('div')
   div.classList.add('title')
-  var h2 = document.createElement('h1')
-  h2.textContent="Procedimiento"
-  div.appendChild(h2);
+  var h1 = document.createElement('h1')
+  h1.textContent="Procedimiento"
+  div.appendChild(h1);
   container.appendChild(div)
-
+  let num = 1
   let selecccionado = []
   graficarMatriz(a,vbasica,selecccionado,standard)
   while (a[0].slice(0, -1).some(coeficiente => coeficiente < -epsilon)){
@@ -165,6 +359,14 @@ function simplex(a, vbasica, standard) {
     let indiceMenor = a[0].slice(0, -1).indexOf(Math.min(...a[0].slice(0, -1)));
     const indice_fila = pivote(a, indiceMenor);
     selecccionado = [indice_fila,indiceMenor]
+    let divaux = document.createElement('div')
+    divaux.classList.add('title')
+    var h2 = document.createElement('h2')
+    h2.textContent="Iteración "+num
+    num++
+    divaux.appendChild(h2);
+    container.appendChild(divaux)
+
     graficarMatriz(a,vbasica,selecccionado,standard)
     if (indice_fila === -1) {
       return resultado(a, vbasica,standard)
@@ -297,17 +499,18 @@ function resultado(matriz_resuelto, resultados,standard){
   container.innerHTML=""
   let div = document.createElement('div')
   div.classList.add('centrar')
-  var h2 = document.createElement('h1')
-  h2.textContent="Resultados"
-  div.appendChild(h2);
+  var h1 = document.createElement('h1')
+  h1.textContent="Resultados"
+  div.appendChild(h1);
   for (var i = 1; i < matriz_resuelto.length; i++) { 
     var h3 = document.createElement('h2')
     h3.textContent+=resultados[i]+" ➞ "
-    h3.textContent+=" = "+matriz_resuelto[i][matriz_resuelto[0].length-1].toFixed(4)
+    h3.textContent+=" = "+matriz_resuelto[i][matriz_resuelto[0].length-1].toFixed(3)
     div.appendChild(h3);
   }
   container.appendChild(div)
 }
+
 function calcularZ() {
     event.preventDefault()
     var coeficienteA = parseFloat(document.getElementById('a').value);

@@ -54,6 +54,11 @@ body{
   align-items: center;
   flex-direction: column;
 }
+.matrices{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .title h2{
   color: #414141;
   font-style: italic;
@@ -74,10 +79,13 @@ body{
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 15px;
 }
 .results h2{
   color: #414141;
   font-style: italic;
+  font-size: 1.5em;
+  margin: 0;
 }
 .imagen-metodo {
   display: flex;
@@ -85,6 +93,10 @@ body{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.imagen-metodo img{
+  display: flex;
+  width: 40%;
 }
 #campos-generados select{
   font-size: x-large;
