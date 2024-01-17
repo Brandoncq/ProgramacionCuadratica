@@ -632,8 +632,9 @@ function calcularZ() {
       entrantes.push(`V${String.fromCharCode(8320 + i)}`)
     }
     let tables = document.querySelector('.container')
-    tables.innerHTML = ""
+    
     if(verificarConsistencia(valoresRestricciones_)){
+      tables.innerHTML = ""
       if(tipo.value=='Maximizar'){
         Maximizar(testing,entrantes,nuevaC)
       }else{
